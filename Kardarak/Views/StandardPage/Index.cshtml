@@ -1,0 +1,15 @@
+﻿@using Kardarak.Models.Cms
+@model StandardPageModel
+
+@{
+    var modele = Model as StandardPageModel;
+    
+    Layout = "_Layout";
+    ViewBag.Title = modele.Navigation.PageTitle;
+}
+
+<h1 class="text-danger">@modele.Navigation.PageTitle</h1>
+<p>
+    @{ WriteLiteral(modele.PageContent); }
+</p>
+

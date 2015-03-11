@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentPageId" Type="uniqueidentifier" />
+          <Property Name="PageTypeId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="PageLanguage">
+          <Key>
+            <PropertyRef Name="PageId" />
+            <PropertyRef Name="Language" />
+          </Key>
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Language" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="NameUrl" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CopyFromLanguage" Type="varchar" MaxLength="5" />
+          <Property Name="ContentJson" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="PageType">
+          <Key>
+            <PropertyRef Name="PageTypeId" />
+          </Key>
+          <Property Name="PageTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentPageTypeId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsFolder" Type="bit" Nullable="false" />
+          <Property Name="ControllerType" Type="varchar" MaxLength="200" />
+          <Property Name="ActionName" Type="varchar" MaxLength="50" />
+          <Property Name="ModelType" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="fk_Page_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="Page1" Type="Self.Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="Page1">
+              <PropertyRef Name="ParentPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Page_PageType">
+          <End Role="PageType" Type="Self.PageType" Multiplicity="0..1" />
+          <End Role="Page" Type="Self.Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageType">
+              <PropertyRef Name="PageTypeId" />
+            </Principal>
+            <Dependent Role="Page">
+              <PropertyRef Name="PageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PageLanguage_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageLanguage" Type="Self.PageLanguage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="PageLanguage">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PageType_PageType">
+          <End Role="PageType" Type="Self.PageType" Multiplicity="0..1" />
+          <End Role="PageType1" Type="Self.PageType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageType">
+              <PropertyRef Name="PageTypeId" />
+            </Principal>
+            <Dependent Role="PageType1">
+              <PropertyRef Name="ParentPageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CmsModelStoreContainer">
+          <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageLanguage" EntityType="Self.PageLanguage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageType" EntityType="Self.PageType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Page_Page" Association="Self.fk_Page_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Page1" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Page_PageType" Association="Self.fk_Page_PageType">
+            <End Role="PageType" EntitySet="PageType" />
+            <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PageLanguage_Page" Association="Self.fk_PageLanguage_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageLanguage" EntitySet="PageLanguage" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PageType_PageType" Association="Self.fk_PageType_PageType">
+            <End Role="PageType" EntitySet="PageType" />
+            <End Role="PageType1" EntitySet="PageType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CmsEntities" annotation:LazyLoadingEnabled="true" a:TypeAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <EntitySet Name="Pages" EntityType="CmsModel.Page" />
+          <EntitySet Name="PageLanguages" EntityType="CmsModel.PageLanguage" />
+          <EntitySet Name="PageTypes" EntityType="CmsModel.PageType" />
+          <AssociationSet Name="fk_Page_Page" Association="CmsModel.fk_Page_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Page1" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Page_PageType" Association="CmsModel.fk_Page_PageType">
+            <End Role="PageType" EntitySet="PageTypes" />
+            <End Role="Page" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PageLanguage_Page" Association="CmsModel.fk_PageLanguage_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageLanguage" EntitySet="PageLanguages" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PageType_PageType" Association="CmsModel.fk_PageType_PageType">
+            <End Role="PageType" EntitySet="PageTypes" />
+            <End Role="PageType1" EntitySet="PageTypes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="ParentPageId" Type="Guid" />
+          <Property Name="PageTypeId" Type="Guid" />
+          <NavigationProperty Name="Childrens" Relationship="CmsModel.fk_Page_Page" FromRole="Page" ToRole="Page1" />
+          <NavigationProperty Name="Parent" Relationship="CmsModel.fk_Page_Page" FromRole="Page1" ToRole="Page" />
+          <NavigationProperty Name="PageType" Relationship="CmsModel.fk_Page_PageType" FromRole="Page" ToRole="PageType" />
+          <NavigationProperty Name="PageLanguages" Relationship="CmsModel.fk_PageLanguage_Page" FromRole="Page" ToRole="PageLanguage" />
+        </EntityType>
+        <EntityType Name="PageLanguage">
+          <Key>
+            <PropertyRef Name="PageId" />
+            <PropertyRef Name="Language" />
+          </Key>
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="Language" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NameUrl" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CopyFromLanguage" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ContentJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Page" Relationship="CmsModel.fk_PageLanguage_Page" FromRole="PageLanguage" ToRole="Page" />
+        </EntityType>
+        <EntityType Name="PageType">
+          <Key>
+            <PropertyRef Name="PageTypeId" />
+          </Key>
+          <Property Name="PageTypeId" Type="Guid" Nullable="false" />
+          <Property Name="ParentPageTypeId" Type="Guid" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsFolder" Type="Boolean" Nullable="false" />
+          <Property Name="ControllerType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModelType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Pages" Relationship="CmsModel.fk_Page_PageType" FromRole="PageType" ToRole="Page" />
+          <NavigationProperty Name="Childrens" Relationship="CmsModel.fk_PageType_PageType" FromRole="PageType" ToRole="PageType1" />
+          <NavigationProperty Name="Parent" Relationship="CmsModel.fk_PageType_PageType" FromRole="PageType1" ToRole="PageType" />
+        </EntityType>
+        <Association Name="fk_Page_Page">
+          <End Type="CmsModel.Page" Role="Page" Multiplicity="0..1" />
+          <End Type="CmsModel.Page" Role="Page1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="Page1">
+              <PropertyRef Name="ParentPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Page_PageType">
+          <End Type="CmsModel.PageType" Role="PageType" Multiplicity="0..1" />
+          <End Type="CmsModel.Page" Role="Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageType">
+              <PropertyRef Name="PageTypeId" />
+            </Principal>
+            <Dependent Role="Page">
+              <PropertyRef Name="PageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PageLanguage_Page">
+          <End Type="CmsModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="CmsModel.PageLanguage" Role="PageLanguage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="PageLanguage">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PageType_PageType">
+          <End Type="CmsModel.PageType" Role="PageType" Multiplicity="0..1" />
+          <End Type="CmsModel.PageType" Role="PageType1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageType">
+              <PropertyRef Name="PageTypeId" />
+            </Principal>
+            <Dependent Role="PageType1">
+              <PropertyRef Name="ParentPageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CmsModelStoreContainer" CdmEntityContainer="CmsEntities">
+          <EntitySetMapping Name="Pages">
+            <EntityTypeMapping TypeName="CmsModel.Page">
+              <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="PageTypeId" ColumnName="PageTypeId" />
+                <ScalarProperty Name="ParentPageId" ColumnName="ParentPageId" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageLanguages">
+            <EntityTypeMapping TypeName="CmsModel.PageLanguage">
+              <MappingFragment StoreEntitySet="PageLanguage">
+                <ScalarProperty Name="ContentJson" ColumnName="ContentJson" />
+                <ScalarProperty Name="CopyFromLanguage" ColumnName="CopyFromLanguage" />
+                <ScalarProperty Name="NameUrl" ColumnName="NameUrl" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageTypes">
+            <EntityTypeMapping TypeName="CmsModel.PageType">
+              <MappingFragment StoreEntitySet="PageType">
+                <ScalarProperty Name="ModelType" ColumnName="ModelType" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerType" ColumnName="ControllerType" />
+                <ScalarProperty Name="IsFolder" ColumnName="IsFolder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentPageTypeId" ColumnName="ParentPageTypeId" />
+                <ScalarProperty Name="PageTypeId" ColumnName="PageTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,21 @@
+﻿@using Kardarak.Models.Cms
+@model StandardPageModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Test";
+    var modele = Model as StandardPageModel;
+}
+
+<h1 class="text-danger">@modele.Navigation.PageTitle</h1>
+<p>
+    @{ WriteLiteral(modele.PageContent); }
+</p>
+<p>
+    @modele.TextTest
+</p>
+<form method="POST">
+    <input type="text" name="TestA" />
+    <input type="submit" value="Allo"/>
+</form>
+

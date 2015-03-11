@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href="@(ViewBag.AdminRoot)Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="@(ViewBag.AdminRoot)Content/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="@(ViewBag.AdminRoot)Content/css/global.css" rel="stylesheet" />
+</head>
+    <body>
+        <script src="@(ViewBag.AdminRoot)Content/js/jquery-1.11.1.min.js"></script>
+        <script src="@(ViewBag.AdminRoot)Content/js/global.js"></script>
+        <script src="@(ViewBag.AdminRoot)Content/tinymce/tinymce.min.js"></script>
+        <script src="@(ViewBag.AdminRoot)Content/bootstrap/js/bootstrap.min.js"></script>
+        <header class="navbar navbar-static-top" id="top" role="banner">
+            <div class="container">
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li class="@(ViewBag.Controller == "Page" ? "active" : string.Empty)">
+                            <a href="@(ViewBag.AdminRoot)Page">Pages</a>
+                        </li>
+                        <li class="@(ViewBag.Controller == "PageType" ? "active" : string.Empty)">
+                            <a href="@(ViewBag.AdminRoot)PageType">Page types</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="">Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="container">
+            @RenderBody()
+        </div>
+    </body>
+</html>

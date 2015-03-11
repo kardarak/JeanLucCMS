@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kardarak", "Kardarak\Kardarak.csproj", "{91BBD18C-15F2-40B5-A8A5-7A02B73B0777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeanLucCMS", "JeanLucCMS\JeanLucCMS.csproj", "{5479984F-22AA-4DD2-98E8-4B45A89A66A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FCCAE1EB-1484-48E2-A187-3A4D88100280}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql Scripts", "Sql Scripts", "{19697308-9850-4855-968D-0374CEA86D7F}"
+	ProjectSection(SolutionItems) = preProject
+		Sql Scripts\Create DB.sql = Sql Scripts\Create DB.sql
+		Sql Scripts\Create Test Data.sql = Sql Scripts\Create Test Data.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91BBD18C-15F2-40B5-A8A5-7A02B73B0777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91BBD18C-15F2-40B5-A8A5-7A02B73B0777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91BBD18C-15F2-40B5-A8A5-7A02B73B0777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91BBD18C-15F2-40B5-A8A5-7A02B73B0777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5479984F-22AA-4DD2-98E8-4B45A89A66A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5479984F-22AA-4DD2-98E8-4B45A89A66A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5479984F-22AA-4DD2-98E8-4B45A89A66A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5479984F-22AA-4DD2-98E8-4B45A89A66A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19697308-9850-4855-968D-0374CEA86D7F} = {FCCAE1EB-1484-48E2-A187-3A4D88100280}
+	EndGlobalSection
+EndGlobal

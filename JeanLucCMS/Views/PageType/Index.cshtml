@@ -1,0 +1,107 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Linq
+@using JeanLucCMS.Entity
+@using JeanLucCMS.Models
+@{
+    Layout = "Shared._layout.cshtml";
+    ViewBag.Title = "List of page types";
+    var model = Model as PageTypeModel;
+}
+
+@helper TreeView(PageTypeItemModel currentItem, IEnumerable<PageTypeItemModel> pagesType)
+{
+    foreach (var item in pagesType)
+    {
+        <li class="@((currentItem != null && currentItem.Id == item.Id) ? "active" : string.Empty)"><a href="@(ViewBag.AdminRoot)PageType/@(item.Id)">@item.Name</a>
+            @if (item.Childrens.Any())
+            {
+                <ul>
+                    @TreeView(currentItem, item.Childrens)
+                </ul>
+            }
+        </li>
+    }
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <form method="POST" action="@(ViewBag.AdminRoot)PageType">
+            <input type="hidden" name="Operation" value="AddFolder" />
+            <button type="submit">Add root folder</button>
+        </form>
+        <div class="tree">
+            <ul>
+                @TreeView(model.Item, model.PageTypes)
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-9">
+        @if (model.Item != null)
+        {
+            <div class="pagetype-buttons">
+                @if (model.Item.IsFolder)
+                {
+                    <form method="POST">
+                        <input type="hidden" name="Operation" value="AddFolder" />
+                        <button type="submit">Add folder</button>
+                    </form>
+                    <form method="POST">
+                        <input type="hidden" name="Operation" value="AddItem" />
+                        <button type="submit">Add page type</button>
+                    </form>
+                }
+                <form method="POST">
+                    <input type="hidden" name="Operation" value="Delete" />
+                    <button type="submit" onclick=" return confirm('Are you sure you want to delete this item?'); ">Delete</button>
+                </form>
+            </div>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" name="Name" value="@(model.Item.Name)" >
+                    </div>
+                </div>                
+                @if (!model.Item.IsFolder)
+                {
+                    <div class="form-group">
+                        <label for="actionFullName" class="col-sm-2 control-label">Action</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="actionFullName" name="ActionFullName">
+                                <option value="">----</option>
+                                @foreach (var action in model.Actions)
+                                {
+                                    <option value="@action.FullName" @(model.Item.ActionFullName == action.FullName ? "selected='selected'" : string.Empty)>
+                                        @action.ControllerType.FullName - @action.ActionName
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modelType" class="col-sm-2 control-label">Model</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="modelType" name="ModelType">
+                                <option value="">----</option>
+                                @foreach (var modelClass in model.Models)
+                                {
+                                    <option value="@modelClass.Name" @(model.Item.ModelType == modelClass.Name ? "selected='selected'" : string.Empty)>
+                                        @modelClass.Class.FullName
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <input type="hidden" name="Operation" value="Update" />
+                        <button type="submit">Save</button>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+</div>
